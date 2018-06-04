@@ -124,6 +124,8 @@ By default, Flatpickr utilizes native datetime widgets unless certain options (e
   Clicking on elements specified in this option will not close the calendar */
   ignoredFocusElements: HTMLElement[];
 
+  incrementHoursOnMinutesMax: boolean;
+
   /* Displays the calendar inline */
   inline: boolean;
 
@@ -328,6 +330,7 @@ export const defaults: ParsedOptions = {
   getWeek,
   hourIncrement: 1,
   ignoredFocusElements: [],
+  incrementHoursOnMinutesMax: true,
   inline: false,
   locale: "default",
   minuteIncrement: 5,
