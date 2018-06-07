@@ -2259,8 +2259,7 @@ function FlatpickrInstance(
     // Workaround IE11 setting placeholder as the input's value
     const preloadedDate =
       self.config.defaultDate ||
-      (self.input.placeholder
-        && self.input.value === self.input.placeholder
+      (self.input.placeholder && self.input.value === self.input.placeholder
         ? null
         : self.input.value);
 
@@ -2570,12 +2569,14 @@ function FlatpickrInstance(
           int(!isHourElem) +
           (int(isHourElem) && int(!self.amPM));
 
-        if (isMinuteElem) incrementNumInput(undefined, -1, self.hourElement);
+        if (self.config.decrementHoursOnMinutesMin && isMinuteElem)
+          incrementNumInput(undefined, -1, self.hourElement);
       } else if (newValue > max) {
         newValue =
           input === self.hourElement ? newValue - max - int(!self.amPM) : min;
 
-        if (self.config.incrementHoursOnMinutesMax && isMinuteElem) incrementNumInput(undefined, 1, self.hourElement);
+        if (self.config.incrementHoursOnMinutesMax && isMinuteElem)
+          incrementNumInput(undefined, 1, self.hourElement);
       }
 
       if (
