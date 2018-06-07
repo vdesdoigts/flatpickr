@@ -112,6 +112,7 @@
       hourIncrement: 1,
       ignoredFocusElements: [],
       incrementHoursOnMinutesMax: true,
+      decrementHoursOnMinutesMin: true,
       inline: false,
       locale: "default",
       minuteIncrement: 5,

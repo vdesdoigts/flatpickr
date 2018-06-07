@@ -356,6 +356,7 @@
       hourIncrement: 1,
       ignoredFocusElements: [],
       incrementHoursOnMinutesMax: true,
+      decrementHoursOnMinutesMin: true,
       inline: false,
       locale: "default",
       minuteIncrement: 5,
@@ -2040,7 +2041,7 @@
 
           if (newValue < min) {
             newValue = max + newValue + int(!isHourElem) + (int(isHourElem) && int(!self.amPM));
-            if (isMinuteElem) incrementNumInput(undefined, -1, self.hourElement);
+            if (self.config.decrementHoursOnMinutesMin && isMinuteElem) incrementNumInput(undefined, -1, self.hourElement);
           } else if (newValue > max) {
             newValue = input === self.hourElement ? newValue - max - int(!self.amPM) : min;
             if (self.config.incrementHoursOnMinutesMax && isMinuteElem) incrementNumInput(undefined, 1, self.hourElement);
