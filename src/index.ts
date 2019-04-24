@@ -172,7 +172,7 @@ function FlatpickrInstance(
   }
 
   function ampm2military(hour: number, amPM: string) {
-    return hour % 12 + 12 * int(amPM === self.l10n.amPM[1]);
+    return (hour % 12) + 12 * int(amPM === self.l10n.amPM[1]);
   }
 
   function military2ampm(hour: number) {
@@ -303,7 +303,7 @@ function FlatpickrInstance(
 
     self.hourElement.value = pad(
       !self.config.time_24hr
-        ? (12 + hours) % 12 + 12 * int(hours % 12 === 0)
+        ? ((12 + hours) % 12) + 12 * int(hours % 12 === 0)
         : hours
     );
 
@@ -341,7 +341,7 @@ function FlatpickrInstance(
   function bind<E extends Element | Window | Document>(
     element: E | E[],
     event: string | string[],
-    handler: ((e?: any) => void),
+    handler: (e?: any) => void,
     options?: object
   ): void {
     if (event instanceof Array)
@@ -382,7 +382,7 @@ function FlatpickrInstance(
    * Adds all the necessary event listeners
    */
   function bindEvents(): void {
-    if (self.config.wrap) {
+    if (!self.isMobile && self.config.wrap) {
       ["open", "close", "toggle", "clear"].forEach(evt => {
         Array.prototype.forEach.call(
           self.element.querySelectorAll(`[data-${evt}]`),
@@ -478,8 +478,8 @@ function FlatpickrInstance(
           (self.config.minDate && self.config.minDate > self.now
             ? (self.config.minDate as Date)
             : self.config.maxDate && self.config.maxDate < self.now
-              ? self.config.maxDate
-              : self.now);
+            ? self.config.maxDate
+            : self.now);
 
     try {
       if (jumpTo !== undefined) {
@@ -755,8 +755,8 @@ function FlatpickrInstance(
         givenMonth - self.currentMonth === m
           ? current.$i + delta
           : delta < 0
-            ? month.children.length - 1
-            : 0;
+          ? month.children.length - 1
+          : 0;
       const numMonthDays = month.children.length;
 
       for (
@@ -785,13 +785,12 @@ function FlatpickrInstance(
       current !== undefined
         ? current
         : dayFocused
-          ? (document.activeElement as DayElement)
-          : self.selectedDateElem !== undefined &&
-            isInView(self.selectedDateElem)
-            ? self.selectedDateElem
-            : self.todayDateElem !== undefined && isInView(self.todayDateElem)
-              ? self.todayDateElem
-              : getFirstAvailableDay(offset > 0 ? 1 : -1);
+        ? (document.activeElement as DayElement)
+        : self.selectedDateElem !== undefined && isInView(self.selectedDateElem)
+        ? self.selectedDateElem
+        : self.todayDateElem !== undefined && isInView(self.todayDateElem)
+        ? self.todayDateElem
+        : getFirstAvailableDay(offset > 0 ? 1 : -1);
 
     if (startElem === undefined) return self._input.focus();
 
@@ -1008,8 +1007,8 @@ function FlatpickrInstance(
       self.latestSelectedDateObj
         ? self.latestSelectedDateObj.getHours()
         : self.config.time_24hr
-          ? self.config.defaultHour
-          : military2ampm(self.config.defaultHour)
+        ? self.config.defaultHour
+        : military2ampm(self.config.defaultHour)
     );
 
     self.minuteElement.value = pad(
@@ -1942,8 +1941,8 @@ function FlatpickrInstance(
       ...(typeof self.config.locale === "object"
         ? self.config.locale
         : self.config.locale !== "default"
-          ? flatpickr.l10ns[self.config.locale as LocaleKey]
-          : undefined),
+        ? flatpickr.l10ns[self.config.locale as LocaleKey]
+        : undefined),
     };
 
     tokenRegex.K = `(${self.l10n.amPM[0]}|${
@@ -2271,11 +2270,11 @@ function FlatpickrInstance(
         ? self.selectedDates[0]
         : self.config.minDate &&
           self.config.minDate.getTime() > self.now.getTime()
-          ? self.config.minDate
-          : self.config.maxDate &&
-            self.config.maxDate.getTime() < self.now.getTime()
-            ? self.config.maxDate
-            : self.now;
+        ? self.config.minDate
+        : self.config.maxDate &&
+          self.config.maxDate.getTime() < self.now.getTime()
+        ? self.config.maxDate
+        : self.now;
 
     self.currentYear = initialDate.getFullYear();
     self.currentMonth = initialDate.getMonth();
@@ -2379,8 +2378,8 @@ function FlatpickrInstance(
       inputType === "datetime-local"
         ? "Y-m-d\\TH:i:S"
         : inputType === "date"
-          ? "Y-m-d"
-          : "H:i:S";
+        ? "Y-m-d"
+        : "H:i:S";
 
     if (self.selectedDates.length > 0) {
       self.mobileInput.defaultValue = self.mobileInput.value = self.formatDate(
