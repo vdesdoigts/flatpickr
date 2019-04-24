@@ -6,56 +6,43 @@
 }(this, (function () { 'use strict';
 
     function delta(e) {
-      return Math.max(-1, Math.min(1, e.wheelDelta || -e.deltaY));
+        return Math.max(-1, Math.min(1, e.wheelDelta || -e.deltaY));
     }
-
-    var scroll = function scroll(e) {
-      e.preventDefault();
-      var ev = new CustomEvent("increment", {
-        bubbles: true
-      });
-      ev.delta = delta(e);
-      e.target.dispatchEvent(ev);
-    };
-
-    function scrollMonth(fp) {
-      return function (e) {
+    const scroll = (e) => {
         e.preventDefault();
-        var mDelta = delta(e);
-        fp.changeMonth(mDelta);
-      };
-    }
-
-    function scrollPlugin() {
-      return function (fp) {
-        var monthScroller = scrollMonth(fp);
-        return {
-          onReady: function onReady() {
-            if (fp.timeContainer) {
-              fp.timeContainer.addEventListener("wheel", scroll);
-            }
-
-            fp.yearElements.forEach(function (yearElem) {
-              return yearElem.addEventListener("wheel", scroll);
-            });
-            fp.monthElements.forEach(function (monthElem) {
-              return monthElem.addEventListener("wheel", monthScroller);
-            });
-          },
-          onDestroy: function onDestroy() {
-            if (fp.timeContainer) {
-              fp.timeContainer.removeEventListener("wheel", scroll);
-            }
-
-            fp.yearElements.forEach(function (yearElem) {
-              return yearElem.removeEventListener("wheel", scroll);
-            });
-            fp.monthElements.forEach(function (monthElem) {
-              return monthElem.removeEventListener("wheel", monthScroller);
-            });
-          }
+        const ev = new CustomEvent("increment", {
+            bubbles: true,
+        });
+        ev.delta = delta(e);
+        e.target.dispatchEvent(ev);
+    };
+    function scrollMonth(fp) {
+        return (e) => {
+            e.preventDefault();
+            const mDelta = delta(e);
+            fp.changeMonth(mDelta);
         };
-      };
+    }
+    function scrollPlugin() {
+        return function (fp) {
+            const monthScroller = scrollMonth(fp);
+            return {
+                onReady() {
+                    if (fp.timeContainer) {
+                        fp.timeContainer.addEventListener("wheel", scroll);
+                    }
+                    fp.yearElements.forEach(yearElem => yearElem.addEventListener("wheel", scroll));
+                    fp.monthElements.forEach(monthElem => monthElem.addEventListener("wheel", monthScroller));
+                },
+                onDestroy() {
+                    if (fp.timeContainer) {
+                        fp.timeContainer.removeEventListener("wheel", scroll);
+                    }
+                    fp.yearElements.forEach(yearElem => yearElem.removeEventListener("wheel", scroll));
+                    fp.monthElements.forEach(monthElem => monthElem.removeEventListener("wheel", monthScroller));
+                },
+            };
+        };
     }
 
     return scrollPlugin;
