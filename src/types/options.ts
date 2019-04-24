@@ -103,7 +103,7 @@ By default, Flatpickr utilizes native datetime widgets unless certain options (e
   enable: DateLimit<DateOption>[];
 
   /* Enables seconds selection in the time picker.
- */
+   */
   enableSeconds: boolean;
 
   /* Enables the time picker */
@@ -254,6 +254,7 @@ export interface ParsedOptions {
   closeOnSelect: boolean;
   conjunction: string;
   dateFormat: string;
+  decrementHoursOnMinutesMin: boolean;
   defaultDate?: Date | Date[];
   defaultHour: number;
   defaultMinute: number;
@@ -269,6 +270,7 @@ export interface ParsedOptions {
   hourIncrement: number;
   ignoredFocusElements: HTMLElement[];
   inline: boolean;
+  incrementHoursOnMinutesMax: boolean;
   locale: LocaleKey | CustomLocale;
   maxDate?: Date;
   maxTime?: Date;
